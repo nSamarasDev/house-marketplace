@@ -84,7 +84,7 @@ function SignUp() {
                         <input 
                             type={showPassword ? 'text' : 'password'} 
                             className='passwordInput' 
-                            placeHolder="Password" 
+                            placeholder="Password" 
                             id="password" value={password}  
                             onChange={onChange}
                         />
