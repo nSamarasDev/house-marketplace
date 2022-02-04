@@ -3,6 +3,7 @@ import {useState, useEffect, useRef} from 'react'
 import { getAuth, onAuthStateChange, onAuthStateChanged } from 'firebase/auth'
 import {useNavigate} from 'react-router-dom'
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import {addDoc, collection, serverTimestamp} from 'firebase/firestore'
 import {db} from '../firebase.config'
 import {v4 as uuidv4} from 'uuid'
 import {toast} from 'react-toastify'
@@ -112,8 +113,6 @@ function CreateListing() {
       } else {
         geolocation.lat = latitude
         geolocation.lng = longitude
-        location = address
-        
       }
 
       // Store images in firebase
@@ -154,7 +153,7 @@ function CreateListing() {
         })
       }
 
-      const imgUrls = await Promise.all(
+      const imageUrls = await Promise.all(
         [...images].map((image) => storeImage(image))
       ).catch(() => {
         setLoading(false)
@@ -162,11 +161,24 @@ function CreateListing() {
         return
       })
 
-      console.log(imgUrls)
 
+      const formDataCopy = {
+        ...formData,
+        imageUrls,
+        geolocation,
+        timestamp: serverTimestamp()
+      }
 
+      formDataCopy.location = address
+      delete formDataCopy.images
+      delete formDataCopy.address
+      !formDataCopy.offer && delete formDataCopy.discountedPrice
+
+      const docRef = await addDoc(collection(db, 'listings'),
+      formDataCopy)
       setLoading(false)
-      
+      toast.success('listing Saved')
+      navigate(`/category/${formDataCopy.type}/${docRef.id}`)
   }
 
   const onMutate = (e) => {
