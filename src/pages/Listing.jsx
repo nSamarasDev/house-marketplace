@@ -71,7 +71,7 @@ function Listing() {
           {listing.offer && (
             <p className="discountPrice">
               ${listing.regularPrice - listing.discountedPrice} 
-              discount
+                discount
             </p>
           )}
     
@@ -87,7 +87,7 @@ function Listing() {
                 : '1 Bathroom'}
               </li>
               <li>{listing.parking && 'Parking Spot'}</li>
-              <li>{listing.furnished && 'Furnished Spot'}</li>
+              <li>{listing.furnished && 'Furnished'}</li>
             </ul>
 
             <p className="listingLocationTitle">Location</p>
@@ -95,10 +95,13 @@ function Listing() {
             {/* Map */}
 
             {auth.currentUser?.uid !== listing.userRef && (
-              <Link to={`/contact/${listing.userRef}?listingName=${listing.name}&listingLocation=${listing.location}`} className='primaryButton'>
-                Contact Landlord
-              </Link>
-            )}
+          <Link
+            to={`/contact/${listing.userRef}?listingName=${listing.name}`}
+            className='primaryButton'
+          >
+            Contact Landlord
+          </Link>
+        )}
           </div>
     </main>
   )
