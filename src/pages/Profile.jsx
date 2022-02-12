@@ -92,6 +92,8 @@ function Profile() {
             toast.success('Successfully deleted listing')
         }
     }
+
+    const onEdit = (listingId) => navigate(`/edit-listing/${listingId}`)
      
 
     return <div className='profile'>
@@ -142,13 +144,14 @@ function Profile() {
             {!loading && listings?.length > 0 && (
                 <>
                 <p className="listingText">Your Listings</p>
-                <ul classname="listingsList"></ul>
+                <ul className="listingsList"></ul>
                 {listings.map((listing) => (
                     <ListingItem 
                     key={listing.id}
                     listing={listing.data}
                     id={listing.id}
                     onDelete={() => onDelete(listing.id)}  
+                    onEdit={() => onEdit(listing.id)}  
                     
                     />
                 ))}
