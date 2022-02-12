@@ -1,6 +1,6 @@
 import React from 'react';
 import {useState, useEffect, useRef} from 'react'
-import { getAuth, onAuthStateChange, onAuthStateChanged } from 'firebase/auth'
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import {useParams, useNavigate} from 'react-router-dom'
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import {doc, updateDoc, getDoc, serverTimestamp} from 'firebase/firestore'
@@ -11,7 +11,7 @@ import Spinner from '../components/Spinner'
 
 
 function EditListing() {
-  const [geolocationEnabled, setGeolocationEnabled] =  useState(true)  
+  const [geolocationEnabled] =  useState(true)  
   const [loading, setLoading] = useState(false)
   const [listing, setListing] = useState(false)
   const [formData, setFormData] = useState({
@@ -95,7 +95,7 @@ function EditListing() {
           isMounted.current = false
       }
   
-  }, [isMounted])
+  }, [isMounted, auth, formData, navigate])
 
   const onSubmit =  async (e) => {
       e.preventDefault()
@@ -166,7 +166,9 @@ function EditListing() {
                     break;
                   case 'running':
                     console.log('Upload is running');
-                    break;
+                    break
+                    default:
+                        break
                 }
               }, 
               (error) => {

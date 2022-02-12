@@ -1,7 +1,7 @@
 import React from 'react';
 import {useLocation, useNavigate} from 'react-router-dom'
 import {getAuth, signInWithPopup, GoogleAuthProvider} from 'firebase/auth'
-import {doc, setDoc, getDoc, serverTimeStamp, serverTimestamp} from 'firebase/firestore'
+import {doc, setDoc, getDoc, serverTimestamp} from 'firebase/firestore'
 import {db} from '../firebase.config'
 import {toast} from 'react-toastify'
 import googleIcon from '../assets/svg/googleIcon.svg'
